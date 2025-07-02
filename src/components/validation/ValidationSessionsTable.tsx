@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,8 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import CreateValidationSessionDialog from "@/components/forms/CreateValidationSessionDialog";
+import { mockProducts } from "@/data/mockData";
 
 const ValidationSessionsTable = () => {
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  
+  
   const sessions = [
     {
       id: "1",
@@ -84,7 +90,7 @@ const ValidationSessionsTable = () => {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Validation Sessions</CardTitle>
-        <Button className="gap-2">
+        <Button className="gap-2" onClick={() => setShowCreateDialog(true)}>
           <Plus className="h-4 w-4" />
           Start New Session
         </Button>
@@ -156,6 +162,13 @@ const ValidationSessionsTable = () => {
           </TableBody>
         </Table>
       </CardContent>
+      <CreateValidationSessionDialog
+        open={showCreateDialog}
+        onOpenChange={setShowCreateDialog}
+        partners={sessions.map(s => ({ id: s.id, name: s.partner }))}
+        products={mockProducts}
+        onSuccess={() => {/* Refresh data */}}
+      />
     </Card>
   );
 };

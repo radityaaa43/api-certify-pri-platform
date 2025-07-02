@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,8 +11,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import CreatePartnerDialog from "@/components/forms/CreatePartnerDialog";
+import CreateValidationSessionDialog from "@/components/forms/CreateValidationSessionDialog";
+import { mockProducts } from "@/data/mockData";
 
 const PartnersTable = () => {
+  const [showCreatePartnerDialog, setShowCreatePartnerDialog] = useState(false);
+  const [showValidationDialog, setShowValidationDialog] = useState(false);
+  const [selectedPartnerId, setSelectedPartnerId] = useState<string>("");
+  
+  
   const partners = [
     {
       id: "1",
@@ -69,7 +78,7 @@ const PartnersTable = () => {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Partners</CardTitle>
-        <Button className="gap-2">
+        <Button className="gap-2" onClick={() => setShowCreatePartnerDialog(true)}>
           <Plus className="h-4 w-4" />
           Add Partner
         </Button>
@@ -110,7 +119,15 @@ const PartnersTable = () => {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <Button variant="ghost" size="icon" title="Start Validation">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      title="Start Validation"
+                      onClick={() => {
+                        setSelectedPartnerId(partner.id);
+                        setShowValidationDialog(true);
+                      }}
+                    >
                       <PlayCircle className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="icon" title="View Details">
@@ -129,6 +146,19 @@ const PartnersTable = () => {
           </TableBody>
         </Table>
       </CardContent>
+      <CreatePartnerDialog 
+        open={showCreatePartnerDialog} 
+        onOpenChange={setShowCreatePartnerDialog}
+        products={mockProducts}
+        onSuccess={() => {/* Refresh data */}}
+      />
+      <CreateValidationSessionDialog
+        open={showValidationDialog}
+        onOpenChange={setShowValidationDialog}
+        partners={partners.map(p => ({ id: p.id, name: p.name }))}
+        products={mockProducts}
+        onSuccess={() => {/* Refresh data */}}
+      />
     </Card>
   );
 };

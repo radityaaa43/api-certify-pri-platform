@@ -19,9 +19,11 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { getTestCasesWithProducts, mockProducts } from "@/data/mockData";
+import CreateTestCaseDialog from "@/components/forms/CreateTestCaseDialog";
 
 const TestCasesTable = () => {
   const [selectedProduct, setSelectedProduct] = useState<string>("all");
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
   const testCases = getTestCasesWithProducts();
   
   const filteredTestCases = selectedProduct === "all" 
@@ -66,7 +68,7 @@ const TestCasesTable = () => {
               ))}
             </SelectContent>
           </Select>
-          <Button className="gap-2">
+          <Button className="gap-2" onClick={() => setShowCreateDialog(true)}>
             <Plus className="h-4 w-4" />
             Add Test Case
           </Button>
@@ -131,13 +133,19 @@ const TestCasesTable = () => {
         {filteredTestCases.length === 0 && (
           <div className="text-center py-8">
             <p className="text-muted-foreground">No test cases found</p>
-            <Button className="mt-4 gap-2">
+            <Button className="mt-4 gap-2" onClick={() => setShowCreateDialog(true)}>
               <Plus className="h-4 w-4" />
               Create your first test case
             </Button>
           </div>
         )}
       </CardContent>
+      <CreateTestCaseDialog 
+        open={showCreateDialog} 
+        onOpenChange={setShowCreateDialog}
+        products={mockProducts}
+        onSuccess={() => {/* Refresh data */}}
+      />
     </Card>
   );
 };

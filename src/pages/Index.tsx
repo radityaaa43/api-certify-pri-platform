@@ -6,6 +6,9 @@ import RecentActivity from "@/components/dashboard/RecentActivity";
 import ProductsTable from "@/components/products/ProductsTable";
 import PartnersTable from "@/components/partners/PartnersTable";
 import ValidationSessionsTable from "@/components/validation/ValidationSessionsTable";
+import TestCasesTable from "@/components/test-cases/TestCasesTable";
+import PartnerRequestsTable from "@/components/partner-requests/PartnerRequestsTable";
+import CertificatesTable from "@/components/certificates/CertificatesTable";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -56,6 +59,42 @@ const Index = () => {
               </p>
             </div>
             <ProductsTable />
+          </div>
+        );
+      case "test-cases":
+        return (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Test Cases</h2>
+              <p className="text-muted-foreground">
+                Define validation rules for API endpoints
+              </p>
+            </div>
+            <TestCasesTable />
+          </div>
+        );
+      case "partner-requests":
+        return (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Partner Requests</h2>
+              <p className="text-muted-foreground">
+                Review and approve partner validation requests
+              </p>
+            </div>
+            <PartnerRequestsTable />
+          </div>
+        );
+      case "certificates":
+        return (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Certificates</h2>
+              <p className="text-muted-foreground">
+                Manage issued API integration certificates
+              </p>
+            </div>
+            <CertificatesTable />
           </div>
         );
       case "partners":

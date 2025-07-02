@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,56 +11,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getProductsWithStats } from "@/data/mockData";
+import CreateProductDialog from "@/components/forms/CreateProductDialog";
 
 const ProductsTable = () => {
-  const products = [
-    {
-      id: "1",
-      name: "Fund Transfer",
-      endpoints: 4,
-      testCases: 24,
-      partners: 12,
-      status: "active"
-    },
-    {
-      id: "2",
-      name: "Account Inquiry",
-      endpoints: 2,
-      testCases: 16,
-      partners: 8,
-      status: "active"
-    },
-    {
-      id: "3",
-      name: "Payment Gateway",
-      endpoints: 6,
-      testCases: 32,
-      partners: 15,
-      status: "active"
-    },
-    {
-      id: "4",
-      name: "Balance Check",
-      endpoints: 1,
-      testCases: 8,
-      partners: 5,
-      status: "maintenance"
-    },
-    {
-      id: "5",
-      name: "Transaction History",
-      endpoints: 3,
-      testCases: 18,
-      partners: 7,
-      status: "active"
-    }
-  ];
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const products = getProductsWithStats();
 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>API Products</CardTitle>
-        <Button className="gap-2">
+        <Button className="gap-2" onClick={() => setShowCreateDialog(true)}>
           <Plus className="h-4 w-4" />
           Add Product
         </Button>
@@ -108,6 +71,7 @@ const ProductsTable = () => {
           </TableBody>
         </Table>
       </CardContent>
+      <CreateProductDialog open={showCreateDialog} onOpenChange={setShowCreateDialog} />
     </Card>
   );
 };
